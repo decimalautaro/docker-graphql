@@ -31,7 +31,6 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -39,14 +38,20 @@ jobs:
         echo "Fin del login"
 
     - name: Build docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+    
       run: |
-        docker build -t decimalautaro/docker-graphql:0.0.2 .
+        docker build -t decimalautaro/docker-graphql:$NEW_VERSION .
         docker build -t decimalautaro/docker-graphql:latest .
+        
         
 
     - name: Push docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push decimalautaro/docker-graphql:0.0.2
+        docker push decimalautaro/docker-graphql:$NEW_VERSION
         docker push decimalautaro/docker-graphql:latest
         
     # - name: Build the Docker image
