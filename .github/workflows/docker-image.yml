@@ -32,7 +32,7 @@ jobs:
 
     - name: Push docker image
       run: |
-        docker push -t decimalautaro/docker-graphql:0.0.2 .
+        docker push decimalautaro/docker-graphql:0.0.2 .
         
         
     # - name: Build the Docker image
